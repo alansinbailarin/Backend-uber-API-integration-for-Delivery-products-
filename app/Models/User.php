@@ -19,7 +19,12 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'last_name',
+        'avatar',
+        'date_of_birth',
+        'phone',
         'email',
+        'alternative_email',
         'password',
     ];
 
@@ -42,4 +47,19 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function user_documentations()
+    {
+        return $this->hasMany(UserDocumentation::class);
+    }
+
+    public function session_histories()
+    {
+        return $this->hasMany(SessionHistory::class);
+    }
+
+    public function user_activities()
+    {
+        return $this->hasMany(UserActivity::class);
+    }
 }
