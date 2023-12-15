@@ -62,4 +62,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(UserActivity::class);
     }
+
+    public function user_locations()
+    {
+        return $this->hasMany(UserLocation::class);
+    }
 }
