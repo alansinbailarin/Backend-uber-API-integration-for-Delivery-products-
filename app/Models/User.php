@@ -18,6 +18,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
+        'uuid',
         'name',
         'last_name',
         'avatar',
@@ -26,6 +27,7 @@ class User extends Authenticatable
         'email',
         'alternative_email',
         'password',
+        'timezone',
     ];
 
     /**
@@ -66,5 +68,15 @@ class User extends Authenticatable
     public function user_locations()
     {
         return $this->hasMany(UserLocation::class);
+    }
+
+    public function quoteURLs()
+    {
+        return $this->hasMany(QuoteURL::class);
+    }
+
+    public function parcel_participants()
+    {
+        return $this->hasMany(ParcelParticipant::class);
     }
 }

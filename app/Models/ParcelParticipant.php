@@ -5,16 +5,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class UserActivity extends Model
+class ParcelParticipant extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'type',
-        'description',
-        'user_id',
+        'full_name',
+        'date_of_birth',
+        'age',
+        'address',
+        'email',
+        'phone_number',
+        'parcel_id',
     ];
 
+    // relation to user
     public function user()
     {
         return $this->belongsTo(User::class);

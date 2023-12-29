@@ -49,10 +49,6 @@ return new class extends Migration
             $table->foreign('seller_id')
                 ->references('id')->on('users')->onDelete('cascade');
 
-            $table->unsignedBigInteger('item_id');
-
-            $table->foreign('item_id')
-                ->references('id')->on('items')->onDelete('cascade');
             $table->timestamps();
         });
     }
