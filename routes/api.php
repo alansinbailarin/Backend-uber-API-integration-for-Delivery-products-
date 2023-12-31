@@ -34,6 +34,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/quote/{customer_uuid}/{access_token}', [QuoteController::class, 'getQuote'])->name('quote');
     Route::post('/shipment/create', [ShipmentController::class, 'createShipment']);
     Route::put('/shipment/update/{id}', [ShipmentController::class, 'updateShipment']);
+    Route::get('/transactions/{uuid}', [TransactionsController::class, 'getTransactions']);
+    Route::post('/transaction/create', [TransactionsController::class, 'createTransaction']);
 });
 
 // Get user

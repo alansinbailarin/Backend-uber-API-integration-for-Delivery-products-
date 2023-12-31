@@ -17,7 +17,14 @@ class ParcelParticipantFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'type' => fake()->randomElement(['sender', 'recipient']),
+            'full_name' => fake()->name,
+            'date_of_birth' => fake()->date,
+            'age' => fake()->randomNumber(),
+            'address' => fake()->address,
+            'email' => fake()->email,
+            'phone_number' => fake()->phoneNumber,
+            'parcel_id' => fake()->numberBetween(1, 100),
         ];
     }
 }

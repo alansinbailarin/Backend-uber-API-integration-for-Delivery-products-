@@ -10,27 +10,11 @@ class Transaction extends Model
     use HasFactory;
 
     protected $fillable = [
+        'title',
+        'transaction_status',
         'transaction_code',
-        'amount',
-        'payment_status',
-        'delivery_status',
-        'tracking_url',
-        'pickup_address',
-        'pickup_name',
-        'pickup_phone_number',
-        'pickup_latitude',
-        'pickup_longitude',
-        'dropoff_address',
-        'dropoff_name',
-        'dropoff_phone_number',
-        'dropoff_latitude',
-        'dropoff_longitude',
-        'confirmation_image',
-        'confirmation_buyer',
-        'confirmation_seller',
-        'buyer_id',
-        'seller_id',
-        'item_id',
+        'user_id',
+        'parcel_participants_id',
     ];
 
     public function buyer()
@@ -46,5 +30,15 @@ class Transaction extends Model
     public function item()
     {
         return $this->belongsTo(Item::class, 'item_id');
+    }
+
+    public function parcelParticipant()
+    {
+        return $this->belongsTo(ParcelParticipant::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

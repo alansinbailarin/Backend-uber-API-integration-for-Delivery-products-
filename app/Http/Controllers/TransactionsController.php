@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\QuoteURL;
+use App\Models\Transaction;
 use App\Models\User;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
@@ -11,6 +12,57 @@ use Illuminate\Support\Facades\URL;
 
 class TransactionsController extends Controller
 {
+
+    public function createTransaction(Request $request)
+    {
+        $rules = [
+            'title' => 'required|string',
+            'transaction_status' => 'required|string',
+            'transaction_code' => 'required',
+            'user_id' => 'required|integer',
+            'parcel_participants_id' => 'nullable|integer',
+        ];
+
+        // Add value to transaction_status = open and transaction_code uuid
+        $request->merge([
+            'transaction_status' => 'open',
+            'transaction_code' => \Str::uuid(),
+        ]);
+
+        $validator = \Validator::make($request->input(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors()->toArray()
+            ], 422);
+        }
+
+        $transaction = Transaction::create($request->all());
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Transaction created successfully',
+            'data' => $transaction
+        ], 201);
+    }
+
+    public function getTransactions(Request $request, $uuid)
+    {
+        $user = User::where('uuid', $uuid)->first();
+
+        if (!$user) {
+            return response()->json(['error' => 'User It is not associated with any UUID'], 404);
+        }
+
+        $transactions = $user->transactions()->where('transaction_status', 'open')->get();
+
+        return response()->json([
+            'success' => true,
+            'data' => $transactions
+        ]);
+    }
+
     public function createQuote(Request $request)
     {
         $customer_id = env('UBER_ORGANIZATION_ID');
@@ -93,7 +145,7 @@ class TransactionsController extends Controller
             if (env('APP_ENV') == 'local') {
                 $verifyURL = str_replace('http://127.0.0.1:8000/api', env('FRONTEND_URL_DEV') . '/' . $lang . '/verify', $link);
             } else {
-                $verifyURL = str_replace('http://127.0.0.1:8000/api', env('FRONTEND_URL_PROD') . '/' . $lang . '/verify', $link);
+                $verifyURL = str_replace('https://projectn.up.railway.app//api', env('FRONTEND_URL_PROD') . '/' . $lang . '/verify', $link);
             }
         }
 
